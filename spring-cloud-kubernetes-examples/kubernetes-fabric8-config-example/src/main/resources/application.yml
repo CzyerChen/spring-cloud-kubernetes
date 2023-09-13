@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: fabric8-config
+  profiles:
+    active: development
+  cloud:
+    kubernetes:
+      reload:
+        enabled: true
+      config:
+        # default ${spring.application.name}
+        name: fabric8-config
+        namespace: kubernetes-fabric8-config-example
+        sources:
+          # Spring Cloud Kubernetes looks up a ConfigMap named c1 in namespace default-namespace
+          - name: c1
+          # Spring Cloud Kubernetes looks up a ConfigMap named default-name in whatever namespace n2
+          - namespace: n2
+          # Spring Cloud Kubernetes looks up a ConfigMap named c3 in namespace n3
+          - namespace: n3
+            name: c3
+greeting:
+  message: ${GREETING_MESSAGE:Say Hello to the World inside}
+farewell:
+  message: ${FAREWELL_MESSAGE:Say Goodbye inside}
+demo:
+  configmap:
+    baseFilePath: local
+    maxFileCount: 0
+db:
+  username: ${DB_USERNAME:local}
+  password: ${DB_PASSWORD:local}

@@ -35,6 +35,7 @@
 
 	<modules>
 		<module>kubernetes-leader-election-example</module>
+		<module>kubernetes-fabric8-config-example</module>
 	</modules>
 
 	<build>

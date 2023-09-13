@@ -1,0 +1,8 @@
+#greeting:
+#  message: Say Hello to the Ops inside
+#farewell:
+#  message:
+greeting:
+  message: ${GREETING_MESSAGE:prod, Say Hello to the World inside}
+farewell:
+  message: ${FAREWELL_MESSAGE:prod, Say Goodbye inside}

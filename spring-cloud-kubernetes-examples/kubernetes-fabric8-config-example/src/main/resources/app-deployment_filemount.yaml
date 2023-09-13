@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: kubernetes-fabric8-config-example-secret
+      labels:
+        app: kubernetes-fabric8-config-example
+    data:
+      secretMessage: b3V0c2lkZSBzZWNyZXQgbWVzc2FnZQ==
+      dbuser: cm9vdA==
+      dbpassword: cGFzc3dvcmQ=
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: kubernetes-fabric8-config-example
+      labels:
+        app: kubernetes-fabric8-config-example
+    data:
+      application.yaml: |-
+        greeting:
+          message: "Say Hello to the World outside"
+        demo:
+          configmap:
+            baseFilePath: test
+            maxFileCount: 10
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: kubernetes-fabric8-config-example
+      name: kubernetes-fabric8-config-example
+    spec:
+      type: NodePort
+      selector:
+        app: kubernetes-fabric8-config-example
+      ports:
+        - nodePort: 30163
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: kubernetes-fabric8-config-example
+      labels:
+        app: kubernetes-fabric8-config-example
+        group: org.springframework.cloud
+    spec:
+      strategy:
+        type: Recreate
+      replicas: 1
+      selector:
+        matchLabels:
+          app: kubernetes-fabric8-config-example
+      template:
+        metadata:
+          labels:
+            app: kubernetes-fabric8-config-example
+        spec:
+           volumes:
+             - name: config-volume
+               configMap:
+                 name: kubernetes-fabric8-config-example
+           containers:
+             - name: kubernetes-fabric8-config-example
+               image: org/kubernetes-fabric8-config-example:3.1.0-SNAPSHOT
+               imagePullPolicy: IfNotPresent
+               ports:
+                 - containerPort: 8080
+               env:
+                 - name: FAREWELL_MESSAGE
+                   valueFrom:
+                     secretKeyRef:
+                       name: kubernetes-fabric8-config-example-secret
+                       key: secretMessage
+                 - name: DB_USERNAME
+                   valueFrom:
+                     secretKeyRef:
+                       name: kubernetes-fabric8-config-example-secret
+                       key: dbuser
+                 - name: DB_PASSWORD
+                   valueFrom:
+                     secretKeyRef:
+                       name: kubernetes-fabric8-config-example-secret
+                       key: dbpassword
+               volumeMounts:
+                 - name: config-volume
+                   mountPath: /config
+

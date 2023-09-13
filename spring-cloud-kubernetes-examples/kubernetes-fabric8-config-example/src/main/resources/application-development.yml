@@ -1,0 +1,8 @@
+#greeting:
+#  message: Say Hello to the Developers inside
+#farewell:
+#  message: Say Goodbye to the Developers inside
+greeting:
+  message: ${GREETING_MESSAGE:dev, Say Hello to the World inside}
+farewell:
+  message: ${FAREWELL_MESSAGE:dev, Say Goodbye inside}

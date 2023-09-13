@@ -1,0 +1,25 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: fabric8-configmap
+  labels:
+    app: kubernetes-leader-election-example
+    group: org.springframework.cloud
+data:
+  application.yml: |-
+    greeting:
+      message: Say Hello to the World
+    farewell:
+      message: Say Goodbye
+    ---
+    spring:
+      profiles: development
+    greeting:
+      message: Say Hello to the Developers
+    farewell:
+      message: Say Goodbye to the Developers
+    ---
+    spring:
+      profiles: production
+    greeting:
+      message: Say Hello to the Ops
