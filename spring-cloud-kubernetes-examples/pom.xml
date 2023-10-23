@@ -35,7 +35,10 @@
 
 	<modules>
 		<module>kubernetes-leader-election-example</module>
-		<module>kubernetes-fabric8-config-example</module>
+		<module>kubernetes-fabric8-client-configmap-example</module>
+		<module>kubernetes-fabric8-client-configmap-pollingreload-example</module>
+		<module>kubernetes-fabric8-client-secret-example</module>
+		<module>kubernetes-fabric8-client-configmap-eventreload-example</module>
 	</modules>
 
 	<build>

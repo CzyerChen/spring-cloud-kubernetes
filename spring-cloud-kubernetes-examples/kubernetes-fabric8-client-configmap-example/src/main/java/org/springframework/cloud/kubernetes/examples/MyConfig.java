@@ -14,33 +14,25 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.kubernetes.examples.config;
+package org.springframework.cloud.kubernetes.examples;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
-@ConfigurationProperties(prefix = "db")
-public class SecretsProperties {
+@RefreshScope
+@Configuration
+@ConfigurationProperties(prefix = "bean")
+public class MyConfig {
 
-	private String username;
+	private String message = "a message that can be changed live";
 
-	private String password;
-
-	public String getUsername() {
-		return username;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }

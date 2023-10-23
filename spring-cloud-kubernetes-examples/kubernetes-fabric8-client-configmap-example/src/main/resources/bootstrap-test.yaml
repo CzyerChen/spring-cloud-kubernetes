@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: kubernetes-fabric8-config-example

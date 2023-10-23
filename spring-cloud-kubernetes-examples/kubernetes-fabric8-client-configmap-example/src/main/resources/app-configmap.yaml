@@ -1,0 +1,31 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: kubernetes-fabric8-config-example
+  labels:
+    app: kubernetes-fabric8-config-example
+    group: org.springframework.cloud
+data:
+  application.yaml: |-
+    greeting:
+      message: Say Hello to the World out
+    farewell:
+      message: Say Goodbye out
+    demo:
+      configmap:
+        baseFilePath: outerPath
+        maxFileCount: 3
+    bean:
+      message: Hello World!out
+    ---
+    spring:
+      profiles: development
+    greeting:
+      message: Say Hello to the Developers out
+    farewell:
+      message: Say Goodbye to the Developers out
+    ---
+    spring:
+      profiles: production
+    greeting:
+      message: Say Hello to the Ops out

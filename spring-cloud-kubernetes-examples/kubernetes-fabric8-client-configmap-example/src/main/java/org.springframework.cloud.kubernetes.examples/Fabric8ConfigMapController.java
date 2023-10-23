@@ -17,27 +17,28 @@
 package org.springframework.cloud.kubernetes.examples;
 
 import jakarta.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.kubernetes.examples.config.ConfigMapProperties;
-import org.springframework.cloud.kubernetes.examples.config.SecretsProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RefreshScope
 @RestController
-public class Fabric8ConfigController {
+public class Fabric8ConfigMapController {
 
-	@Value("${greeting.message}")
+	@Value("${greeting.message:''}")
 	private String greetingMessage;
 
-	@Value("${farewell.message}")
+	@Value("${farewell.message:''}")
 	private String farewellMessage;
 
 	@Resource
-	private ConfigMapProperties configProperties;
+	private MyConfig myConfig;
 
-	@Resource
-	private SecretsProperties secretProperties;
+	@GetMapping("/health")
+	public String health() {
+		return "success";
+	}
 
 	/**
 	 * Return a message whether this instance is a leader or not.
@@ -45,21 +46,7 @@ public class Fabric8ConfigController {
 	 */
 	@GetMapping("meet")
 	public String meet() {
-		return String.format("Hello, '%s', Goodbye, '%s'", greetingMessage, farewellMessage);
+		return String.format("Hello, '%s', Goodbye, '%s', myconfig: '%s'", greetingMessage, farewellMessage,
+				myConfig.getMessage());
 	}
-
-	@GetMapping
-	public String configs() {
-		return String.format("baseFilePath: '%s', maxFileCount: '%s'", configProperties.getBaseFilePath(),
-				configProperties.getMaxFileCount()) + ";"
-				+ String.format("username: '%s', password: '%s'", secretProperties.getUsername(),
-						secretProperties.getPassword());
-	}
-
-	@GetMapping("secrets")
-	public String secrets() {
-		return String.format("username: '%s', password: '%s'", secretProperties.getUsername(),
-				secretProperties.getPassword());
-	}
-
 }

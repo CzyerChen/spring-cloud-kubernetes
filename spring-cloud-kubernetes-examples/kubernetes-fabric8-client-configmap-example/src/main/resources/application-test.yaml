@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    kubernetes:
+      reload:
+        #自动更新配置的开关设置为打开
+        enabled: true
+        monitoring-config-maps: true
+        #更新配置信息的模式是主动拉取
+        mode: event
+        #主动拉取的间隔时间是500毫秒
+        #period: 500
+        strategy: refresh
+      config:
+        enabled: true
+        name: kubernetes-fabric8-config-example
+        namespace: default
+        sources:
+          - name: kubernetes-fabric8-config-example
+            namespace: default
+    config:
+      enabled: false
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true
+    refresh:
+      enabled: true
+    env:
+      post:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: refresh,info,env,health
+bean:
+  message: dev
+greeting:
+  message: local
+logging:
+  level:
+    org.springframework.cloud.kubernetes.commons: debug
+    org.springframework.cloud.kubernetes.fabric8.config: debug

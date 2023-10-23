@@ -106,7 +106,8 @@
 		<module>spring-cloud-starter-kubernetes-fabric8-loadbalancer</module>
 		<module>spring-cloud-kubernetes-discovery</module>
 		<module>spring-cloud-starter-kubernetes-discoveryclient</module>
-	</modules>
+        <module>kubernetes-fabric8-client-configmap-pollingreload-example</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
